@@ -1,17 +1,17 @@
 // THE MAIN TYPES
-// number:
+// NUMBER:
 let revenue: number = 10_000;
 let bonus: number = 500;
 let result: number = revenue + bonus;
 
-// string:
+// STRING:
 let c: string = 'String!';
 
-// boolean:
+// BOOLEAN:
 let d: boolean = true;
-// console.log(result); // 10500
+console.log(result); // 10500
 
-// types in functions:
+// FUNCTIONS:
 // tsconfig.json:
 // "noImplicitAny": true, => "noImplicitAny": false,
 //  Enable error reporting for expressions and declarations with an implied 'any' type.
@@ -22,9 +22,9 @@ function getFullName(firstname: string, surname: string): string {
 const getFullNameArrow = (firstname: string, surname: string): string => {
   return `${firstname} ${surname}`;
 };
-// console.log(getFullName('Alex', 'Svar')); // Alex Svar
+console.log(getFullName('Alex', 'Svar')); // Alex Svar
 
-// objects:
+// OBJECTS:
 function getName(userEntity: { firstname: string; surname: string }): string {
   return `${userEntity.firstname} ${userEntity.surname}`;
 }
@@ -38,7 +38,7 @@ const user = {
     devops: false
   }
 };
-// console.log(getName(user)); // Alex Svar
+console.log(getName(user)); // Alex Svar
 
 // EXERCISE 1:
 // type object:
@@ -75,3 +75,17 @@ let info: {
     }
   }
 };
+
+// ARRAYS:
+const skills: string[] = ['Dev', 'DevOps', 'Testing'];
+
+// iteration
+for (const skill of skills) {
+  console.log(skill.toLocaleLowerCase()); // dev devops
+}
+
+const res = skills
+  .filter((skill: string) => skill !== 'DevOps')
+  .map((skill) => skill + '! ')
+  .reduce((a, b) => a + b);
+console.log(res);
