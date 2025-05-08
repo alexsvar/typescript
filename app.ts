@@ -1,17 +1,17 @@
 // THE MAIN TYPES
-// NUMBER:
+// NUMBER
 let revenue: number = 10_000;
 let bonus: number = 500;
 let result: number = revenue + bonus;
 
-// STRING:
+// STRING
 let c: string = 'String!';
 
-// BOOLEAN:
+// BOOLEAN
 let d: boolean = true;
 console.log(result); // 10500
 
-// FUNCTIONS:
+// FUNCTIONS
 // tsconfig.json:
 // "noImplicitAny": true, => "noImplicitAny": false,
 //  Enable error reporting for expressions and declarations with an implied 'any' type.
@@ -24,7 +24,7 @@ const getFullNameArrow = (firstname: string, surname: string): string => {
 };
 console.log(getFullName('Alex', 'Svar')); // Alex Svar
 
-// OBJECTS:
+// OBJECTS
 function getName(userEntity: { firstname: string; surname: string }): string {
   return `${userEntity.firstname} ${userEntity.surname}`;
 }
@@ -40,7 +40,7 @@ const user = {
 };
 console.log(getName(user)); // Alex Svar
 
-// EXERCISE 1:
+// EXERCISE 1
 // type object:
 // {
 //   "officeId": 45,
@@ -76,7 +76,7 @@ let info: {
   }
 };
 
-// ARRAYS:
+// ARRAYS
 const skills: string[] = ['Dev', 'DevOps', 'Testing'];
 
 // iteration
@@ -90,7 +90,7 @@ const res = skills
   .reduce((a, b) => a + b);
 console.log(res);
 
-// TUPLES:
+// TUPLES
 const skill: [number, string] = [1, 'dev'];
 const [skillId, skillName] = skill;
 // const q = skill[2]; // ERROR
@@ -105,3 +105,36 @@ const hobby: readonly [number, string] = [1, 'music'];
 // array:
 const nums: ReadonlyArray<number> = [1, 2, 3, 4, 5];
 // nums[1] = 10; // ERROR
+
+// ENUMS
+// A reference of answers, values, and parameters of a limited number of values.
+
+// statusCodes:
+// 1 - success,
+// 2 - in process,
+// 3 - failed
+
+// heterogeneous enum:
+enum StatusCode {
+  SUCCESS = 1,
+  IN_PROGRESS = 'p',
+  FAILED = 'f'
+}
+
+const mainResult = {
+  message: 'The payment was successful',
+  statusCode: StatusCode.SUCCESS
+};
+
+function action(status: StatusCode) {}
+action(StatusCode.SUCCESS);
+action(1);
+// action('p'); // ERROR
+
+// constant enum
+const enum Roles {
+  ADMIN = 1,
+  USER = 2,
+  PREMIUM_USER = 3
+}
+const enumResult = Roles.ADMIN;
