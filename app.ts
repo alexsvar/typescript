@@ -89,3 +89,10 @@ const res = skills
   .map((skill) => skill + '! ')
   .reduce((a, b) => a + b);
 console.log(res);
+
+// TUPLES:
+const skill: [number, string] = [1, 'dev'];
+const [skillId, skillName] = skill;
+// const q = skill[2]; // ERROR
+
+const arr: [number, string, ...boolean[]] = [1, 'str', true, true, false];

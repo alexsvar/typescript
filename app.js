@@ -70,3 +70,5 @@ const res = skills
     .map((skill) => skill + '! ')
     .reduce((a, b) => a + b);
 console.log(res);
+// TUPLES:
+const skill = [1, 'dev'];
