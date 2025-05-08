@@ -138,3 +138,61 @@ const enum Roles {
   PREMIUM_USER = 3
 }
 const enumResult = Roles.ADMIN;
+
+// EXERCISE 2
+// type a function:
+// request:
+// {
+// 	"topicId": 5,
+// 	"status": "published" // "draft", "deleted"
+// }
+
+// response:
+// [
+// 	{
+// 		"question": "Как осуществляется доставка?",
+// 		"answer": "Быстро!",
+// 		"tags": [
+// 			"popular",
+// 			"new"
+// 		],
+// 		"likes": 3,
+// 		"status": "publishes"
+// 	}
+// ]
+
+// function:
+// async function getFaqs(req) {
+//   const res = await fetch('/faqs', {
+//     method: 'POST',
+//     body: JSON.stringify(req)
+//   });
+//   const data = await res.json();
+//   return data;
+// }
+
+enum QuestionStatus {
+  Published = 'published',
+  Draft = 'draft',
+  Deleted = 'deleted'
+}
+
+async function getFaqs(req: {
+  topicId: number;
+  status?: QuestionStatus;
+}): Promise<
+  {
+    question: string;
+    answer: string;
+    tags: string[];
+    likes: number;
+    status: QuestionStatus;
+  }[]
+> {
+  const res = await fetch('/faqs', {
+    method: 'POST',
+    body: JSON.stringify(req)
+  });
+  const data = await res.json();
+  return data;
+}
