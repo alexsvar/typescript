@@ -9,7 +9,7 @@ let c: string = 'String!';
 
 // boolean:
 let d: boolean = true;
-// console.log(result);
+// console.log(result); // 10500
 
 // types in functions:
 // tsconfig.json:
@@ -22,4 +22,20 @@ function getFullName(firstname: string, surname: string): string {
 const getFullNameArrow = (firstname: string, surname: string): string => {
   return `${firstname} ${surname}`;
 };
-// console.log(getFullName('Alex', 'Svar'));
+// console.log(getFullName('Alex', 'Svar')); // Alex Svar
+
+// objects:
+function getName(userEntity: { firstname: string; surname: string }): string {
+  return `${userEntity.firstname} ${userEntity.surname}`;
+}
+const user = {
+  firstname: 'Alex',
+  surname: 'Svar',
+  age: 36,
+  city: 'Sarov',
+  skills: {
+    dev: true,
+    devops: false
+  }
+};
+// console.log(getName(user)); // Alex Svar

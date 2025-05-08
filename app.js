@@ -8,7 +8,7 @@ let result = revenue + bonus;
 let c = 'String!';
 // boolean:
 let d = true;
-// console.log(result);
+// console.log(result); // 10500
 // types in functions:
 // tsconfig.json:
 // "noImplicitAny": true, => "noImplicitAny": false,
@@ -19,4 +19,43 @@ function getFullName(firstname, surname) {
 const getFullNameArrow = (firstname, surname) => {
     return `${firstname} ${surname}`;
 };
-console.log(getFullName('Alex', 'Svar'));
+// console.log(getFullName('Alex', 'Svar')); // Alex Svar
+// objects:
+function getName(userEntity) {
+    return `${userEntity.firstname} ${userEntity.surname}`;
+}
+const user = {
+    firstname: 'Alex',
+    surname: 'Svar',
+    age: 36,
+    city: 'Sarov',
+    skills: {
+        dev: true,
+        devops: false
+    }
+};
+// console.log(getName(user)); // Alex Svar
+// EXERCISE 1:
+// type object:
+// {
+//   "officeId": 45,
+//   "isOpened": false,
+//   "contacts": {
+//     "phone": "+79100000000",
+//     "email": "my@mail.ru",
+//     "address": {
+//       "city": "Moscow"
+//     }
+//   }
+// }
+let info = {
+    officeId: 45,
+    isOpened: false,
+    contacts: {
+        phone: '+79100000000',
+        email: 'my@mail.ru',
+        address: {
+            city: 'Moscow'
+        }
+    }
+};
