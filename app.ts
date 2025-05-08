@@ -96,3 +96,12 @@ const [skillId, skillName] = skill;
 // const q = skill[2]; // ERROR
 
 const arr: [number, string, ...boolean[]] = [1, 'str', true, true, false];
+
+// READONLY
+// tuple:
+const hobby: readonly [number, string] = [1, 'music'];
+// hobby[0] = 2; // ERROR
+
+// array:
+const nums: ReadonlyArray<number> = [1, 2, 3, 4, 5];
+// nums[1] = 10; // ERROR
