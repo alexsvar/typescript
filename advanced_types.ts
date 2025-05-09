@@ -77,3 +77,31 @@ fetchWithAuth2('http://asd.asd', 'get');
 // Но если в переменную мы передадим что-то другое, то типизация не покажет ошибку.
 let method = 'post';
 fetchWithAuth2('http://asd.asd', method as 'post');
+
+// ALIASES
+// Позволяет более эффективно записывать типы.
+// Объявляется с помощью ключевого слова httpMethod.
+type httpMethod = 'post' | 'get';
+function fetchWithAuth3(url: string, method: httpMethod): 1 | -1 {
+  return 1;
+}
+
+type User2 = {
+  name: string;
+  age: number;
+  skills: string[];
+};
+type Role2 = {
+  name: string;
+  id: number;
+};
+// Можно создать intersection User2WithRole2, который будет типа User2 & Role2.
+// Через "|" мы обозначаем union (или 1 или 2 ...).
+// Через "&" мы обозначаем intersection (объединение, и 1 и 2).
+type User2WithRole2 = User2 & Role2;
+let user2: User2WithRole2 = {
+  name: 'Alex',
+  age: 36,
+  skills: ['1', '2'],
+  id: 1
+};

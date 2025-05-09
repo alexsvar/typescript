@@ -4,17 +4,76 @@
 // Union используется для возможности обозначить, что в той или иной переменной у нас
 // могут находиться различные типы при различных обстоятельствах.
 // const arr2: (string | number)[] = ['str', 1];
-function logId2(id2) {
-    if (typeof id2 === 'string') {
-        console.log(id2);
+// string, number, boolean:
+function logId2(id) {
+    // Cужение типов для union types:
+    if (typeof id === 'string') {
+        console.log(id);
     }
-    else if (typeof id2 === 'number') {
-        console.log(id2);
+    else if (typeof id === 'number') {
+        console.log(id);
     }
     else {
-        console.log(id2);
+        console.log(id);
     }
 }
 logId2(1);
 logId2('str');
 logId2(true);
+// arrays:
+function logError2(err) {
+    if (Array.isArray(err)) {
+        console.log(err);
+    }
+    else {
+        console.log(err);
+    }
+}
+// objects:
+function logObject2(obj) {
+    if ('a' in obj) {
+        console.log(obj.a);
+    }
+    else {
+        console.log(obj.b);
+    }
+}
+// parameters with similar types:
+function logMultipleIds2(a, b) {
+    if (a === b) {
+    }
+    else {
+        console.log(a);
+    }
+}
+// LITERAL
+// Можно сделать enum
+// enum RequestType {
+//   GET = 'get',
+//   POST = 'post'
+// }
+// enum делать для каждого такого случая является плохой практикой.
+//
+// string literal types:
+function fetchWithAuth2(url, method) {
+    return 1;
+}
+// Когда объявляем константу const a2 = 'str', то у a будет тип 'str'.
+// В таком виде тип бесполезен, мы ничего другого присвоить не можем.
+const a2 = 'str';
+// Если мы объявим переменную b2 let b2 = 'asdasd', то тип будет 'string'.
+// Но мы можем чётко написать let b2: 'asdasd' = 'asdasd' и b2 становится константой.
+let b2 = 'asdasd';
+// На фронте используется в React для задания props
+fetchWithAuth2('http://asd.asd', 'get');
+// Если явно не указать тип 'post', то будет ошибка, потому что идёт проверка на тип.
+// let method: 'post' = 'post';
+// Или можем сделать method константой.
+// const method = 'post';
+// Или же можем сделать каст к другому типу.
+// Но если в переменную мы передадим что-то другое, то типизация не покажет ошибку.
+let method = 'post';
+fetchWithAuth2('http://asd.asd', method);
+function fetchWithAuth3(url, method) {
+    return 1;
+}
