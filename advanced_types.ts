@@ -44,3 +44,36 @@ function logMultipleIds2(a: string | number, b: string | boolean) {
     console.log(a);
   }
 }
+
+// LITERAL
+// Можно сделать enum
+// enum RequestType {
+//   GET = 'get',
+//   POST = 'post'
+// }
+// enum делать для каждого такого случая является плохой практикой.
+//
+// string literal types:
+function fetchWithAuth2(url: string, method: 'post' | 'get'): 1 | -1 {
+  return 1;
+}
+
+// Когда объявляем константу const a2 = 'str', то у a будет тип 'str'.
+// В таком виде тип бесполезен, мы ничего другого присвоить не можем.
+const a2 = 'str';
+
+// Если мы объявим переменную b2 let b2 = 'asdasd', то тип будет 'string'.
+// Но мы можем чётко написать let b2: 'asdasd' = 'asdasd' и b2 становится константой.
+let b2: 'asdasd' = 'asdasd';
+
+// На фронте используется в React для задания props
+fetchWithAuth2('http://asd.asd', 'get');
+
+// Если явно не указать тип 'post', то будет ошибка, потому что идёт проверка на тип.
+// let method: 'post' = 'post';
+// Или можем сделать method константой.
+// const method = 'post';
+// Или же можем сделать каст к другому типу.
+// Но если в переменную мы передадим что-то другое, то типизация не покажет ошибку.
+let method = 'post';
+fetchWithAuth2('http://asd.asd', method as 'post');
