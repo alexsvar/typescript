@@ -105,3 +105,55 @@ let user2: User2WithRole2 = {
   skills: ['1', '2'],
   id: 1
 };
+
+// INTERFACES
+interface User {
+  name: string;
+  age: number;
+  skills: string[];
+}
+interface Role {
+  roleId: number;
+}
+interface UserWithRole extends User, Role {
+  createdAt: Date;
+}
+let user: UserWithRole = {
+  name: 'Alex',
+  age: 36,
+  skills: ['1', '2'],
+  roleId: 1,
+  createdAt: new Date()
+};
+
+// functions:
+// function log in interface User1
+interface User1 {
+  name: string;
+  age: number;
+  skills: string[];
+
+  log: (id: number) => string;
+}
+interface Role1 {
+  roleId: number;
+}
+
+interface User1WithRole1 extends User1, Role1 {
+  createdAt: Date;
+}
+let user3: User1WithRole1 = {
+  name: 'Alex',
+  age: 36,
+  skills: ['1', '2'],
+  roleId: 1,
+  createdAt: new Date(),
+
+  log(id) {
+    return '';
+  }
+};
+
+interface UserDictionary {
+  [index: number]: User1;
+}
