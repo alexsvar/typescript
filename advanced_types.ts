@@ -286,51 +286,75 @@
 //
 // my way:
 // request:
-interface Payment {
-  sum: number;
-  from: number;
-  to: number;
-}
-interface PaymentServerRequest extends Payment {}
-const request: PaymentServerRequest = {
-  sum: 10000,
-  from: 2,
-  to: 4
-};
+// interface Payment {
+//   sum: number;
+//   from: number;
+//   to: number;
+// }
+// interface PaymentServerRequest extends Payment {}
+// const request: PaymentServerRequest = {
+//   sum: 10000,
+//   from: 2,
+//   to: 4
+// };
+// //
+// // response:
+// interface IPaymentStatus {
+//   Success: string;
+//   Failed: string;
+// }
+// interface SuccessResponseData extends Payment {
+//   databaseId: number;
+// }
+// interface FailedResponseData {
+//   errorMessage: string;
+//   errorCode: number;
+// }
+// interface SuccessServerResponse {
+//   status: 'success';
+//   data: SuccessResponseData;
+// }
+// interface FailedServerResponse {
+//   status: 'failed';
+//   data: FailedResponseData;
+// }
+// const successServerResponse: SuccessServerResponse = {
+//   status: 'success',
+//   data: {
+//     databaseId: 567,
+//     sum: 10000,
+//     from: 2,
+//     to: 4
+//   }
+// };
+// const failedServerResponse: FailedServerResponse = {
+//   status: 'failed',
+//   data: {
+//     errorMessage: 'Недостаточно средств',
+//     errorCode: 4
+//   }
+// };
 //
-// response:
-interface IPaymentStatus {
-  Success: string;
-  Failed: string;
-}
-interface SuccessResponseData extends Payment {
-  databaseId: number;
-}
-interface FailedResponseData {
-  errorMessage: string;
-  errorCode: number;
-}
-interface SuccessServerResponse {
-  status: 'success';
-  data: SuccessResponseData;
-}
-interface FailedServerResponse {
-  status: 'failed';
-  data: FailedResponseData;
-}
-const successServerResponse: SuccessServerResponse = {
-  status: 'success',
-  data: {
-    databaseId: 567,
-    sum: 10000,
-    from: 2,
-    to: 4
-  }
-};
-const failedServerResponse: FailedServerResponse = {
-  status: 'failed',
-  data: {
-    errorMessage: 'Недостаточно средств',
-    errorCode: 4
-  }
-};
+// VOID
+// void обозначает, что функция ничего не возвращает
+// function logId(id: string | number): void {
+//   console.log(id);
+// }
+// const a = logId(1);
+//
+// function multiply(b: number, c?: number): number | void {
+//   if (!c) return b * b;
+// }
+//
+// type voidFunc = () => void;
+// const f1: voidFunc = () => {};
+// const f2: voidFunc = () => true;
+// const b = f2();
+//
+// const skills = ['dev', 'devOps'];
+// const user = {
+//   s: ['s']
+// };
+// skills.forEach((skill) => user.s.push(skill));
+//
+//
