@@ -160,33 +160,99 @@
 //   [index: number]: User;
 // }
 //
-// TYPES OR INTERFACES
-// interfaces:
-// Один interface может дополнять другой, но это bad practice.
-// Такой код плохо поддерживаемый. Но это может быть полезным
-// при использовании типов из какой-либо библиотеки.
-// С type так делать нельзя.
-interface User {
-  name: string;
-}
-interface User {
-  age: number;
-}
-const user: User = {
-  name: 'Alex',
-  age: 33
-};
+// // TYPES OR INTERFACES
+// // interfaces:
+// // Один interface может дополнять другой, но это bad practice.
+// // Такой код плохо поддерживаемый. Но это может быть полезным
+// // при использовании типов из какой-либо библиотеки.
+// // С type так делать нельзя.
+// interface User {
+//   name: string;
+// }
+// interface User {
+//   age: number;
+// }
+// const user: User = {
+//   name: 'Alex',
+//   age: 33
+// };
+// //
+// // types:
+// // Позволяют расширяться от примитивных типов.
+// // С interfaces так нельзя. Interfaces позволяют
+// // работать с объектами, с описанием классов, но не с простыми типами.
+// // Только внутри interface могут содержаться простые типы.
+// type ID = string | number;
+// interface IDS {
+//   ID: string | number;
+// }
+// //
+// // Рекомендации к использванию:
+// // types: Для использования примитивных типов.
+// // interface: Для работы с объектами и описания классов.
 //
-// types:
-// Позволяют расширяться от примитивных типов.
-// С interfaces так нельзя. Interfaces позволяют
-// работать с объектами, с описанием классов, но не с простыми типами.
-// Только внутри interface могут содержаться простые типы.
-type ID = string | number;
-interface IDS {
-  ID: string | number;
-}
+// // OPTIONAL
+// // optional "?":
+// // interfaces:
+// interface User {
+//   login: string;
+//   password?: string;
+// }
+// const user: User = {
+//   login: 'alex@mail.ru'
+// };
 //
-// Рекомендации к использванию:
-// types: Для использования примитивных типов.
-// interface: Для работы с объектами и описания классов.
+// // types:
+// type User = {
+//   login: string;
+//   password?: string;
+// };
+// const user: User = {
+//   login: 'alex@mail.ru'
+// };
+//
+// // Запись ниже не эквивалентна использованию optional
+// // и выдаст ошибку.
+// type User = {
+//   login: string;
+//   password: string | undefined;
+// };
+// const user: User = {
+//   login: 'alex@mail.ru'
+// };
+//
+// // functions:
+// // в аргументах функции optional по типу эквивалентен
+// // записи number | undefined.
+// function multiply(first: number, second?: number): number {
+//   if (!second) return first * first;
+//   return first * second;
+// }
+// //
+// // objects:
+// interface UserPro {
+//   login: 'alex@mail.ru';
+//   password?: {
+//     type: 'primary' | 'secondary';
+//   };
+// }
+// // Запись const t = user.password!.type эквивалентна записи
+// // const t = user.password.type ? user.password.type : undefined
+// function testPass(user: UserPro) {
+//   const t = user.password?.type;
+// }
+// //
+// // optional "!":
+// // Означает что мы уверены на 1000%, что пароль не будет undefined.
+// // Он всегда будет иметь тип.
+// // function testPass(user: UserPro) {
+// //   const t = user.password!.type;
+// // }
+//
+// // nullish coalescing:
+// // Запись const t = param ?? multiply(5) проверяет,
+// // если param равен null или undefined, то в данном случае
+// // мы выполняем эту функцию и возвращаем результат в t.
+// function test(param?: string) {
+//   const t = param ?? multiply(5);
+// }
