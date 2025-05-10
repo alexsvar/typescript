@@ -357,4 +357,43 @@
 // };
 // skills.forEach((skill) => user.s.push(skill));
 //
-//
+// UNKNOWN
+// Тип unknown означает, что мы не знаем что у нас лежит в переменной.
+// Мы не можем unknown положить в любую переменную, пока не сделаем
+// приведение типов или не определим, что это за тип.
+let input: unknown;
+input = 3;
+input = 'str';
+input = ['str1', 'str2'];
+
+function run(i: unknown) {
+  if (typeof i == 'number') i++;
+  else i;
+}
+run(input);
+
+// try...catch:
+async function getData() {
+  try {
+    await fetch('');
+  } catch (error) {
+    if (error instanceof Error) console.log(error.message);
+  }
+}
+
+async function getDataForce() {
+  try {
+    await fetch('');
+  } catch (error) {
+    const e = error as Error;
+    console.log(e.message);
+  }
+}
+
+// unknown и другие типы:
+// при union unknown и любого другого типа буд unknown.
+type U1 = unknown | null;
+
+// intersection:
+// Intersection unknown | любой другой тип - даёт другой тип.
+type I1 = unknown & string;
