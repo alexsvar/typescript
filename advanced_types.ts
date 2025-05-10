@@ -243,7 +243,7 @@
 // }
 // //
 // // optional "!":
-// // Означает что мы уверены на 1000%, что пароль не будет undefined.
+// // Означает что мы уверены на 100%, что пароль не будет undefined.
 // // Он всегда будет иметь тип.
 // // function testPass(user: UserPro) {
 // //   const t = user.password!.type;
@@ -256,3 +256,81 @@
 // function test(param?: string) {
 //   const t = param ?? multiply(5);
 // }
+//
+// EXERCISE 3: TYPIFICATION OF SERVER'S RESPONSE
+// // Запрос в виде платежа
+// {
+// 	"sum": 10000,
+// 	"from": 2,
+// 	"to": 4
+// }
+// // Ответ
+// [
+// 	{
+// 		"status": "success",
+// 		"data": {
+// 			"databaseId": 567,
+// 			"sum": 10000,
+// 			"from": 2,
+// 			"to": 4
+// 		},
+// 	},
+// 	{
+// 		"status": "failed",
+// 		"data": {
+// 			"errorMessage": "Недостаточно средств",
+// 			"errorCode": 4
+// 		}
+// 	}
+// ]
+//
+// my way:
+// request:
+interface Payment {
+  sum: number;
+  from: number;
+  to: number;
+}
+interface PaymentServerRequest extends Payment {}
+const request: PaymentServerRequest = {
+  sum: 10000,
+  from: 2,
+  to: 4
+};
+//
+// response:
+interface IPaymentStatus {
+  Success: string;
+  Failed: string;
+}
+interface SuccessResponseData extends Payment {
+  databaseId: number;
+}
+interface FailedResponseData {
+  errorMessage: string;
+  errorCode: number;
+}
+interface SuccessServerResponse {
+  status: 'success';
+  data: SuccessResponseData;
+}
+interface FailedServerResponse {
+  status: 'failed';
+  data: FailedResponseData;
+}
+const successServerResponse: SuccessServerResponse = {
+  status: 'success',
+  data: {
+    databaseId: 567,
+    sum: 10000,
+    from: 2,
+    to: 4
+  }
+};
+const failedServerResponse: FailedServerResponse = {
+  status: 'failed',
+  data: {
+    errorMessage: 'Недостаточно средств',
+    errorCode: 4
+  }
+};
