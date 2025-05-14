@@ -434,7 +434,7 @@
 //       throw new Error('This action is not exists...');
 //   }
 // }
-
+//
 // // Исчерпывающая проверка, когда функция, которая возвращает never,
 // // помогает улучшить ситуацию. В данном случае, функция generateError
 // // убирает ошибку с возвращаемым значением типа boolean.
@@ -481,12 +481,12 @@
 // let str1: string = num.toString();
 // let str2: string = new String(num).valueOf();
 // let bool: boolean = new Boolean(num).valueOf();
-
+//
 // // Преобразование строки в число:
 // let str = 'full_string';
 // let num1: number = +str;
 // let enum2: number = parseInt(str);
-
+//
 // // Преобразование объектов:
 // interface User {
 //   name: string;
@@ -580,49 +580,49 @@
 //   else throw new Error('User is not admin');
 // }
 //
-// EXERCISE 4: MAKING A TYPE GUARD FOR THE RESPONSE
-interface IPayment {
-  sum: number;
-  from: number;
-  to: number;
-}
-
-enum PaymentStatus {
-  Success = 'success',
-  Failed = 'failed'
-}
-
-interface IPaymentRequest extends IPayment {}
-
-interface IDataSuccess extends IPayment {
-  databaseId: number;
-}
-
-interface IDataFailed {
-  errorMessage: string;
-  errorCode: number;
-}
-
-interface IResponseSuccess {
-  status: PaymentStatus.Success;
-  data: IDataSuccess;
-}
-
-interface IResponseFailed {
-  status: PaymentStatus.Failed;
-  data: IDataFailed;
-}
-// Code:
-type f = (res: IResponseSuccess | IResponseFailed) => number;
-type Res = IResponseSuccess | IResponseFailed;
-
-// type guard function:
-function isSuccess(res: Res): res is IResponseSuccess {
-  if (res.status === PaymentStatus.Success) return true;
-  return false;
-}
-
-function getIdFromData(res: Res): number {
-  if (isSuccess(res)) return res.data.databaseId;
-  else throw new Error(res.data.errorMessage);
-}
+// // EXERCISE 4: MAKING A TYPE GUARD FOR THE RESPONSE
+// interface IPayment {
+//   sum: number;
+//   from: number;
+//   to: number;
+// }
+//
+// enum PaymentStatus {
+//   Success = 'success',
+//   Failed = 'failed'
+// }
+//
+// interface IPaymentRequest extends IPayment {}
+//
+// interface IDataSuccess extends IPayment {
+//   databaseId: number;
+// }
+//
+// interface IDataFailed {
+//   errorMessage: string;
+//   errorCode: number;
+// }
+//
+// interface IResponseSuccess {
+//   status: PaymentStatus.Success;
+//   data: IDataSuccess;
+// }
+//
+// interface IResponseFailed {
+//   status: PaymentStatus.Failed;
+//   data: IDataFailed;
+// }
+// // Code:
+// type f = (res: IResponseSuccess | IResponseFailed) => number;
+// type Res = IResponseSuccess | IResponseFailed;
+//
+// // type guard function:
+// function isSuccess(res: Res): res is IResponseSuccess {
+//   if (res.status === PaymentStatus.Success) return true;
+//   return false;
+// }
+//
+// function getIdFromData(res: Res): number {
+//   if (isSuccess(res)) return res.data.databaseId;
+//   else throw new Error(res.data.errorMessage);
+// }

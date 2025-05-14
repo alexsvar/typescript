@@ -1,4 +1,4 @@
-// // THE MAIN TYPES
+// // MAIN TYPES
 // // NUMBER
 // let revenue: number = 10_000;
 // let bonus: number = 500;
