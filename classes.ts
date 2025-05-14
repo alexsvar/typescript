@@ -180,26 +180,75 @@
 //
 // // FEATURES OF INHERITANCE
 //
-class User {
-  constructor() {
-    console.log(this.name);
-  }
-  name: string = 'user';
-}
-class Admin extends User {
-  constructor() {
-    super();
-    console.log(this.name);
-  }
-  name: string = 'admin';
-}
-new Admin();
-new Error('');
+// class User {
+//   constructor() {
+//     console.log(this.name);
+//   }
+//   name: string = 'user';
+// }
+// class Admin extends User {
+//   constructor() {
+//     super();
+//     console.log(this.name);
+//   }
+//   name: string = 'admin';
+// }
+// new Admin();
+// new Error('');
 
-class HttpError extends Error {
-  constructor(message: string, code?: number) {
-    super(message);
-    this.code = code ?? 500;
+// class HttpError extends Error {
+//   constructor(message: string, code?: number) {
+//     super(message);
+//     this.code = code ?? 500;
+//   }
+//   code: number;
+// }
+//
+// // COMPOSITION VS INHERITANCE
+// Наследование нужно использовать когда:
+// Мы наследуемся в рамках одной доменной области.
+// Наследование не нужно использовать когда:
+// Мы наследуемся от сложных встроенных массивов
+class User {
+  constructor(name: string) {
+    this.name = name;
   }
-  code: number;
+  name: string;
+}
+
+class Users extends Array<User> {
+  searchByName(name: string) {
+    return this.filter((u) => u.name === name);
+  }
+  override toString(): string {
+    return this.map((u) => u.name).join(', ');
+  }
+}
+const users = new Users();
+users.push(new User('Vasya'));
+users.push(new User('Petya'));
+console.log(users.toString());
+
+class UserList {
+  users: User[];
+  push(u: User) {
+    this.users.push(u);
+  }
+}
+
+class Payment {
+  date: Date;
+}
+// Inheritance:
+class UserWithPayment1 extends Payment {
+  name: string;
+}
+// Composition:
+class UserWithPayment2 {
+  constructor(user: User, payment: Payment) {
+    this.user = user;
+    this.payment = payment;
+  }
+  user: User;
+  payment: Payment;
 }

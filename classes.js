@@ -181,17 +181,45 @@
 //
 // // FEATURES OF INHERITANCE
 //
+// class User {
+//   constructor() {
+//     console.log(this.name);
+//   }
+//   name: string = 'user';
+// }
+// class Admin extends User {
+//   constructor() {
+//     super();
+//     console.log(this.name);
+//   }
+//   name: string = 'admin';
+// }
+// new Admin();
+// new Error('');
+// class HttpError extends Error {
+//   constructor(message: string, code?: number) {
+//     super(message);
+//     this.code = code ?? 500;
+//   }
+//   code: number;
+// }
+//
+// // COMPOSITION VS INHERITANCE
+//
 class User {
-    constructor() {
-        this.name = 'user';
-        console.log(this.name);
+    constructor(name) {
+        this.name = name;
     }
 }
-class Admin extends User {
-    constructor() {
-        super();
-        this.name = 'admin';
-        console.log(this.name);
+class Users extends Array {
+    searchByName(name) {
+        return this.filter((u) => u.name === name);
+    }
+    toString() {
+        return this.map((u) => u.name).join(', ');
     }
 }
-new Admin();
+const users = new Users();
+users.push(new User('Vasya'));
+users.push(new User('Petya'));
+console.log(users.toString());
