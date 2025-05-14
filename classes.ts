@@ -254,32 +254,97 @@
 // }
 //
 // // VISIBILITY OF PROPERTIES
-// public - публичные свойства, доступные внутри класса и снаружи.
-// private - привантные свойства, доступные только внутри класса.
-// protected - защищённые свойства, доступные внутри класса и внутри наследуемого класса.
-class Vehicle {
-  public make: string;
-  private damages: string[];
-  private _model: string;
-  protected run: number;
-  #price: number;
-  set model(m: string) {
-    this._model = m;
-  }
-  get model() {
-    return this._model;
-  }
-  isPriceEqual(v: Vehicle) {
-    return this.#price === v.#price;
-  }
-  addDamage(damage: string) {
-    this.damages.push(damage);
+// // public - публичные свойства, доступные внутри класса и снаружи.
+// // private - привантные свойства, доступные только внутри класса.
+// // protected - защищённые свойства, доступные внутри класса и внутри наследуемого класса.
+// class Vehicle {
+//   public make: string;
+//   private damages: string[];
+//   private _model: string;
+//   protected run: number;
+//   #price: number;
+//   set model(m: string) {
+//     this._model = m;
+//   }
+//   get model() {
+//     return this._model;
+//   }
+//   isPriceEqual(v: Vehicle) {
+//     return this.#price === v.#price;
+//   }
+//   addDamage(damage: string) {
+//     this.damages.push(damage);
+//   }
+// }
+// class EuroTruck extends Vehicle {
+//   setRun(km: number) {
+//     this.run = km / 0.62;
+//     // this.damages; // error
+//   }
+// }
+// new Vehicle();
+//
+// // EXERCISE 5: CREATING PRODUCT'S CART
+// // Необходимо сделать корзину (Cart) на сайте,
+// // которая имееет список продуктов (Product), добавленных в корзину
+// // и переметры доставки (Delivery). Для Cart реализовать методы:
+// // - Добавить продукт в корзину
+// // - Удалить продукт из корзины по ID
+// // - Посчитать стоимость товаров в корзине
+// // - Задать доставку
+// // - Checkout - вернуть что всё ок, если есть продукты и параметры доставки
+// // Product: id, название и цена
+// // Delivery: может быть как до дома (дата и адрес) или до пункта выдачи (дата = Сегодня и Id магазина)
+//
+class Product {
+  constructor(public id: number, public name: string, public price: number) {}
+}
+class Delivery {
+  constructor(public date: Date) {}
+}
+class HomeDelivery extends Delivery {
+  constructor(date: Date, public address: string) {
+    super(date);
   }
 }
-class EuroTruck extends Vehicle {
-  setRun(km: number) {
-    this.run = km / 0.62;
-    // this.damages; // error
+class ShopDelivery extends Delivery {
+  constructor(public shopId: string) {
+    super(new Date());
   }
 }
-new Vehicle();
+type DeliveryOptions = HomeDelivery | ShopDelivery;
+class Cart {
+  private products: Product[] = [];
+  private delivery: DeliveryOptions;
+
+  public addProductToCart(product: Product): void {
+    this.products.push(product);
+  }
+  public removeProductFromCart(id: number): void {
+    this.products = this.products.filter((p: Product) => p.id !== id);
+  }
+  public countTotalPrice(): number {
+    return this.products
+      .map((p: Product) => p.price)
+      .reduce((acc: number, p: number) => {
+        return acc + p;
+      }, 0);
+  }
+  public setDelivery(delivery: DeliveryOptions): void {
+    this.delivery = delivery;
+  }
+  public checkout() {
+    if (this.products.length === 0)
+      throw new Error('Добавьте товар в корзину!');
+    if (!this.delivery) throw new Error('Укажите способ доставки!');
+    return { success: true };
+  }
+}
+const cart = new Cart();
+cart.addProductToCart(new Product(1, 'Печенье', 10));
+cart.addProductToCart(new Product(2, 'Вафли', 20));
+cart.addProductToCart(new Product(3, 'Торт', 35));
+cart.removeProductFromCart(1);
+cart.setDelivery(new HomeDelivery(new Date(), "unost' street"));
+console.log(cart.countTotalPrice());
+console.log(cart.checkout());
