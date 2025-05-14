@@ -108,7 +108,7 @@
 //   id: 1
 // };
 //
-// INTERFACES
+// // INTERFACES
 // interface User {
 //   name: string;
 //   age: number;
@@ -257,7 +257,7 @@
 //   const t = param ?? multiply(5);
 // }
 //
-// EXERCISE 3: TYPIFICATION OF SERVER'S RESPONSE
+// // EXERCISE 3: TYPIFICATION OF SERVER'S RESPONSE
 // // Запрос в виде платежа
 // {
 // 	"sum": 10000,
@@ -335,7 +335,7 @@
 //   }
 // };
 //
-// VOID
+// // VOID
 // void обозначает, что функция ничего не возвращает
 // function logId(id: string | number): void {
 //   console.log(id);
@@ -357,7 +357,7 @@
 // };
 // skills.forEach((skill) => user.s.push(skill));
 //
-// UNKNOWN
+// // UNKNOWN
 // Тип unknown означает, что мы не знаем что у нас лежит в переменной.
 // Мы не можем unknown положить в любую переменную, пока не сделаем
 // приведение типов или не определим, что это за тип.
@@ -398,7 +398,7 @@
 // // Intersection unknown | любой другой тип - даёт другой тип.
 // type I1 = unknown & string;
 //
-// NEVER
+// // NEVER
 // // Тип never означает что никогда такого не произойдёт.
 // // Функция genenrateError никогда ничего не вернёт.
 // function generateError(message: string): never {
@@ -445,31 +445,90 @@
 //   generateError('Error message');
 // }
 //
-// NULL
-// Тип null строго null, ему нельзя присвоить значение undefined.
-// В number/string/boolean/undefined нельзя положить null.
-// За это отвечает опция в tsconfig:
-// "strictNullChecks": true; - When type checking, take into account 'null' and 'undefined'.
-const n: null = null;
-const n1: any = null;
-// const n2: number = null; // error
-// const n3: string = null; // error
-// const n4: boolean = null; // error
-// const n4: undefined = null; // error
+// // NULL
+// // Тип null строго null, ему нельзя присвоить значение undefined.
+// // В number/string/boolean/undefined нельзя положить null.
+// // За это отвечает опция в tsconfig:
+// // "strictNullChecks": true; - When type checking, take into account 'null' and 'undefined'.
+// const n: null = null;
+// const n1: any = null;
+// // const n2: number = null; // error
+// // const n3: string = null; // error
+// // const n4: boolean = null; // error
+// // const n4: undefined = null; // error
+// //
+// interface User {
+//   name: string;
+// }
+// function getUser() {
+//   if (Math.random() > 0.5) return null;
+//   else return { name: 'Вася' } as User;
+// }
+// const user = getUser();
+// if (user) {
+//   const userName = user.name;
+// }
+// //
+// //
+// // Отличия между null и undefined:
+// // null - явно заданный неопределённый объект.
+// // undefined - говорит, что мы не задали объект.
 //
+// // TYPE CONVERSION
+//
+// Преобразование числа в строку:
+let num: number = 5;
+let str1: string = num.toString();
+let str2: string = new String(num).valueOf();
+let bool: boolean = new Boolean(num).valueOf();
+
+// Преобразование строки в число:
+let str = 'full_string';
+let num1: number = +str;
+let enum2: number = parseInt(str);
+
+// Преобразование объектов:
 interface User {
   name: string;
+  email: string;
+  login: string;
 }
-function getUser() {
-  if (Math.random() > 0.5) return null;
-  else return { name: 'Вася' } as User;
-}
-const user = getUser();
-if (user) {
-  const userName = user.name;
-}
-
+// Способ 1: явное указание interface
+const user1: User = {
+  name: 'Вася',
+  email: 'vasily@MediaList.ru',
+  login: 'Vasya'
+};
+// Способ 2: каст к типу
+const user2 = {
+  name: 'Саня',
+  email: 'sanya@MediaList.ru',
+  login: 'Sanya'
+} as User;
+// Способ 3: generic type
+// Не рекомендуется к использованию.
+// Его невозможно использовать с React:
+const user3 = <User>{
+  name: 'Сергей',
+  email: 'sergey@MediaList.ru',
+  login: 'Sergey'
+};
 //
-// Отличия между null и undefined:
-// null - явно заданный неопределённый объект.
-// undefined - говорит, что мы не задали объект.
+//
+interface Admin {
+  name: string;
+  role: number;
+}
+// Вариеант: преобразование user к admin
+// Минусы: сохраняются ненужные поля email и login.
+const admin: Admin = {
+  ...user1,
+  role: 1
+};
+// Правильно делать функции преобразования одного типа в другой:
+function userToAdmin(user1: User): Admin {
+  return {
+    name: user1.name,
+    role: 1
+  };
+}
