@@ -146,34 +146,60 @@
 //   }
 // }
 //
-// EXTENDS
+// // EXTENDS
+// //
+// type PaymentStatus = 'new' | 'paid';
+// class Payment {
+//   constructor(id: number) {
+//     this.id = id;
+//   }
+//   id: number;
+//   status: PaymentStatus = 'new';
+//   pay() {
+//     this.status = 'paid';
+//   }
+// }
+// class PersistedPayment extends Payment {
+//   constructor() {
+//     const id = Math.random();
+//     super(id);
+//   }
+//   databaseId: number;
+//   paidAt: Date;
+//   save() {
+//     //
+//   }
+//   // Override method - переопределение метода.
+//   override pay(date?: Date) {
+//     // super.pay();
+//     if (date) {
+//       this.paidAt = date;
+//     }
+//   }
+// }
 //
-type PaymentStatus = 'new' | 'paid';
-class Payment {
-  constructor(id: number) {
-    this.id = id;
-  }
-  id: number;
-  status: PaymentStatus = 'new';
-  pay() {
-    this.status = 'paid';
-  }
-}
-class PersistedPayment extends Payment {
+// // FEATURES OF INHERITANCE
+//
+class User {
   constructor() {
-    const id = Math.random();
-    super(id);
+    console.log(this.name);
   }
-  databaseId: number;
-  paidAt: Date;
-  save() {
-    //
+  name: string = 'user';
+}
+class Admin extends User {
+  constructor() {
+    super();
+    console.log(this.name);
   }
-  // Override method - переопределение метода.
-  override pay(date?: Date) {
-    // super.pay();
-    if (date) {
-      this.paidAt = date;
-    }
+  name: string = 'admin';
+}
+new Admin();
+new Error('');
+
+class HttpError extends Error {
+  constructor(message: string, code?: number) {
+    super(message);
+    this.code = code ?? 500;
   }
+  code: number;
 }

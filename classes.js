@@ -95,17 +95,103 @@
 //   else return '';
 // }
 //
-// GETTERS & SETTERS
+// // GETTERS & SETTERS
+// // То что возвращает getter, то и должен получать setter.
+// // Объявляя только getter без setter, свойство login становится readonly.
+// // Setters & getters не могут быть асинхронными.
+// class User {
+//   _login: string;
+//   password: string;
+//   createdAt: Date;
+//   set login(log: string | number) {
+//     this._login = 'user-' + log;
+//     this.createdAt = new Date();
+//   }
+//   get login() {
+//     return this._login;
+//   }
+//   async getPassword(pass: string) {}
+// }
+// const user1 = new User();
+// user1.login = 'myLogin';
+// console.log(user1);
+// console.log(user1.login);
+//
+// // IMPLEMENTATION
+//
+// interface ILogger {
+//   log(...args: any[]): void;
+//   error(...args: any[]): void;
+// }
+// class Logger implements ILogger {
+//   log(...args: any[]): void {
+//     console.log(...args);
+//   }
+//   async error(...args: any[]): Promise<void> {
+//     console.log(...args);
+//   }
+// }
+// interface IPayable {
+//   pay(paymentId: number): void;
+//   price?: number;
+// }
+// interface IDeletable {
+//   delete(): void;
+// }
+// class User implements IPayable, IDeletable {
+//   delete(): void {
+//     throw new Error('Method not implemented.');
+//   }
+//   pay(paymentId: number | string): void {
+//     // ...
+//   }
+// }
+//
+// // EXTENDS
+// //
+// type PaymentStatus = 'new' | 'paid';
+// class Payment {
+//   constructor(id: number) {
+//     this.id = id;
+//   }
+//   id: number;
+//   status: PaymentStatus = 'new';
+//   pay() {
+//     this.status = 'paid';
+//   }
+// }
+// class PersistedPayment extends Payment {
+//   constructor() {
+//     const id = Math.random();
+//     super(id);
+//   }
+//   databaseId: number;
+//   paidAt: Date;
+//   save() {
+//     //
+//   }
+//   // Override method - переопределение метода.
+//   override pay(date?: Date) {
+//     // super.pay();
+//     if (date) {
+//       this.paidAt = date;
+//     }
+//   }
+// }
+//
+// // FEATURES OF INHERITANCE
 //
 class User {
-    set login(l) {
-        this._login = 'user-' + l;
-    }
-    get login() {
-        return 'no_login';
+    constructor() {
+        this.name = 'user';
+        console.log(this.name);
     }
 }
-const user1 = new User();
-user1.login = 'myLogin';
-// console.log(user1);
-console.log(user1.login);
+class Admin extends User {
+    constructor() {
+        super();
+        this.name = 'admin';
+        console.log(this.name);
+    }
+}
+new Admin();
