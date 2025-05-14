@@ -196,6 +196,7 @@
 // }
 // new Admin();
 // new Error('');
+var _Vehicle_price;
 // class HttpError extends Error {
 //   constructor(message: string, code?: number) {
 //     super(message);
@@ -205,21 +206,77 @@
 // }
 //
 // // COMPOSITION VS INHERITANCE
+// // Наследование нужно использовать когда:
+// // Мы наследуемся в рамках одной доменной области.
+// // Наследование не нужно использовать когда:
+// // Мы наследуемся от сложных встроенных массивов
+// class User {
+//   constructor(name: string) {
+//     this.name = name;
+//   }
+//   name: string;
+// }
 //
-class User {
-    constructor(name) {
-        this.name = name;
+// class Users extends Array<User> {
+//   searchByName(name: string) {
+//     return this.filter((u) => u.name === name);
+//   }
+//   override toString(): string {
+//     return this.map((u) => u.name).join(', ');
+//   }
+// }
+// const users = new Users();
+// users.push(new User('Vasya'));
+// users.push(new User('Petya'));
+// console.log(users.toString());
+//
+// class UserList {
+//   users: User[];
+//   push(u: User) {
+//     this.users.push(u);
+//   }
+// }
+//
+// class Payment {
+//   date: Date;
+// }
+// // Inheritance:
+// class UserWithPayment1 extends Payment {
+//   name: string;
+// }
+// // Composition:
+// class UserWithPayment2 {
+//   constructor(user: User, payment: Payment) {
+//     this.user = user;
+//     this.payment = payment;
+//   }
+//   user: User;
+//   payment: Payment;
+// }
+//
+// // VISIBILITY OF PROPERTIES
+// public - публичные свойства, доступные внутри класса и снаружи.
+// private - привантные свойства, доступные только внутри класса.
+// protected - защищённые свойства, доступные внутри класса и внутри наследуемого класса.
+class Vehicle {
+    constructor() {
+        _Vehicle_price.set(this, void 0);
+    }
+    set model(m) {
+        this._model = m;
+    }
+    get model() {
+        return this._model;
+    }
+    addDamage(damage) {
+        this.damages.push(damage);
     }
 }
-class Users extends Array {
-    searchByName(name) {
-        return this.filter((u) => u.name === name);
-    }
-    toString() {
-        return this.map((u) => u.name).join(', ');
+_Vehicle_price = new WeakMap();
+class EuroTruck extends Vehicle {
+    setRun(km) {
+        this.run = km / 0.62;
+        // this.damages; // error
     }
 }
-const users = new Users();
-users.push(new User('Vasya'));
-users.push(new User('Petya'));
-console.log(users.toString());
+new Vehicle();

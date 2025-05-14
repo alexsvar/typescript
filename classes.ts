@@ -205,50 +205,81 @@
 // }
 //
 // // COMPOSITION VS INHERITANCE
-// Наследование нужно использовать когда:
-// Мы наследуемся в рамках одной доменной области.
-// Наследование не нужно использовать когда:
-// Мы наследуемся от сложных встроенных массивов
-class User {
-  constructor(name: string) {
-    this.name = name;
+// // Наследование нужно использовать когда:
+// // Мы наследуемся в рамках одной доменной области.
+// // Наследование не нужно использовать когда:
+// // Мы наследуемся от сложных встроенных массивов
+// class User {
+//   constructor(name: string) {
+//     this.name = name;
+//   }
+//   name: string;
+// }
+//
+// class Users extends Array<User> {
+//   searchByName(name: string) {
+//     return this.filter((u) => u.name === name);
+//   }
+//   override toString(): string {
+//     return this.map((u) => u.name).join(', ');
+//   }
+// }
+// const users = new Users();
+// users.push(new User('Vasya'));
+// users.push(new User('Petya'));
+// console.log(users.toString());
+//
+// class UserList {
+//   users: User[];
+//   push(u: User) {
+//     this.users.push(u);
+//   }
+// }
+//
+// class Payment {
+//   date: Date;
+// }
+// // Inheritance:
+// class UserWithPayment1 extends Payment {
+//   name: string;
+// }
+// // Composition:
+// class UserWithPayment2 {
+//   constructor(user: User, payment: Payment) {
+//     this.user = user;
+//     this.payment = payment;
+//   }
+//   user: User;
+//   payment: Payment;
+// }
+//
+// // VISIBILITY OF PROPERTIES
+// public - публичные свойства, доступные внутри класса и снаружи.
+// private - привантные свойства, доступные только внутри класса.
+// protected - защищённые свойства, доступные внутри класса и внутри наследуемого класса.
+class Vehicle {
+  public make: string;
+  private damages: string[];
+  private _model: string;
+  protected run: number;
+  #price: number;
+  set model(m: string) {
+    this._model = m;
   }
-  name: string;
-}
-
-class Users extends Array<User> {
-  searchByName(name: string) {
-    return this.filter((u) => u.name === name);
+  get model() {
+    return this._model;
   }
-  override toString(): string {
-    return this.map((u) => u.name).join(', ');
+  isPriceEqual(v: Vehicle) {
+    return this.#price === v.#price;
   }
-}
-const users = new Users();
-users.push(new User('Vasya'));
-users.push(new User('Petya'));
-console.log(users.toString());
-
-class UserList {
-  users: User[];
-  push(u: User) {
-    this.users.push(u);
+  addDamage(damage: string) {
+    this.damages.push(damage);
   }
 }
-
-class Payment {
-  date: Date;
-}
-// Inheritance:
-class UserWithPayment1 extends Payment {
-  name: string;
-}
-// Composition:
-class UserWithPayment2 {
-  constructor(user: User, payment: Payment) {
-    this.user = user;
-    this.payment = payment;
+class EuroTruck extends Vehicle {
+  setRun(km: number) {
+    this.run = km / 0.62;
+    // this.damages; // error
   }
-  user: User;
-  payment: Payment;
 }
+new Vehicle();
