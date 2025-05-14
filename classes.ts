@@ -75,21 +75,46 @@
 // const time = payment.getPaymentLifeTime();
 // console.log(time);
 //
-// // EXERCISE 5: OVERLOAD METHODS
-// overload methods:
+// // EXERCISE 5: OVERLOAD METHOD
+// // overload methods:
+// class User {
+//   skills: string[];
+//   addSkill(skill: string): void;
+//   addSkill(skills: string[]): void;
+//   addSkill(skillOrSkills: string | string[]): void {
+//     if (typeof skillOrSkills == 'string') this.skills.push(skillOrSkills);
+//     else this.skills.concat(skillOrSkills);
+//   }
+// }
+// // overload functions:
+// function run(distance: number): number;
+// function run(distance: string): string;
+// function run(distance: number | string): number | string {
+//   if (typeof distance === 'number') return 1;
+//   else return '';
+// }
+//
+// GETTERS & SETTERS
+// То что возвращает getter, то и должен получать setter.
+// Объявляя только getter без setter, свойство login становится readonly.
+// Setters & getters не могут быть асинхронными.
 class User {
-  skills: string[];
-  addSkill(skill: string): void;
-  addSkill(skills: string[]): void;
-  addSkill(skillOrSkills: string | string[]): void {
-    if (typeof skillOrSkills == 'string') this.skills.push(skillOrSkills);
-    else this.skills.concat(skillOrSkills);
+  _login: string;
+  password: string;
+  createdAt: Date;
+  set login(log: string | number) {
+    this._login = 'user-' + log;
+    this.createdAt = new Date();
   }
+  get login() {
+    return this._login;
+  }
+  async getPassword(pass: string) {}
+  // set password(pass: string) {
+  // 	// sync
+  // }
 }
-// overload functions:
-function run(distance: number): number;
-function run(distance: string): string;
-function run(distance: number | string): number | string {
-  if (typeof distance === 'number') return 1;
-  else return '';
-}
+const user1 = new User();
+user1.login = 'myLogin';
+console.log(user1);
+console.log(user1.login);

@@ -47,30 +47,65 @@
 //
 // // METHODS
 // // Метод - функция, которая находится внутри класса и выполняет какие-либо действия.
-var PaymentStatus;
-(function (PaymentStatus) {
-    PaymentStatus[PaymentStatus["Holded"] = 0] = "Holded";
-    PaymentStatus[PaymentStatus["Processed"] = 1] = "Processed";
-    PaymentStatus[PaymentStatus["Reversed"] = 2] = "Reversed";
-})(PaymentStatus || (PaymentStatus = {}));
-class Payment {
-    constructor(id) {
-        this.id = id;
-        this.createdAt = new Date();
-        this.status = PaymentStatus.Holded;
+// enum PaymentStatus {
+//   Holded,
+//   Processed,
+//   Reversed
+// }
+// class Payment {
+//   constructor(id: number) {
+//     this.id = id;
+//   }
+//   id: number;
+//   status: PaymentStatus = PaymentStatus.Holded;
+//   createdAt: Date = new Date();
+//   updatedAt: Date;
+//   getPaymentLifeTime(): number {
+//     return new Date().getTime() - this.createdAt.getTime();
+//   }
+//   unholdPayment(): void {
+//     if (this.status == PaymentStatus.Processed)
+//       throw new Error('Платёж не может быть возвращён.');
+//     this.status = PaymentStatus.Reversed;
+//     this.updatedAt = new Date();
+//   }
+// }
+// const payment = new Payment(1);
+// payment.unholdPayment();
+// console.log(payment);
+// const time = payment.getPaymentLifeTime();
+// console.log(time);
+//
+// // EXERCISE 5: OVERLOAD METHOD
+// // overload methods:
+// class User {
+//   skills: string[];
+//   addSkill(skill: string): void;
+//   addSkill(skills: string[]): void;
+//   addSkill(skillOrSkills: string | string[]): void {
+//     if (typeof skillOrSkills == 'string') this.skills.push(skillOrSkills);
+//     else this.skills.concat(skillOrSkills);
+//   }
+// }
+// // overload functions:
+// function run(distance: number): number;
+// function run(distance: string): string;
+// function run(distance: number | string): number | string {
+//   if (typeof distance === 'number') return 1;
+//   else return '';
+// }
+//
+// GETTERS & SETTERS
+//
+class User {
+    set login(l) {
+        this._login = 'user-' + l;
     }
-    getPaymentLifeTime() {
-        return new Date().getTime() - this.createdAt.getTime();
-    }
-    unholdPayment() {
-        if (this.status == PaymentStatus.Processed)
-            throw new Error('Платёж не может быть возвращён.');
-        this.status = PaymentStatus.Reversed;
-        this.updatedAt = new Date();
+    get login() {
+        return 'no_login';
     }
 }
-const payment = new Payment(1);
-payment.unholdPayment();
-console.log(payment);
-const time = payment.getPaymentLifeTime();
-console.log(time);
+const user1 = new User();
+user1.login = 'myLogin';
+// console.log(user1);
+console.log(user1.login);
