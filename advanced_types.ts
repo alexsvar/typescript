@@ -477,58 +477,105 @@
 // // TYPE CONVERSION
 //
 // Преобразование числа в строку:
-let num: number = 5;
-let str1: string = num.toString();
-let str2: string = new String(num).valueOf();
-let bool: boolean = new Boolean(num).valueOf();
+// let num: number = 5;
+// let str1: string = num.toString();
+// let str2: string = new String(num).valueOf();
+// let bool: boolean = new Boolean(num).valueOf();
 
-// Преобразование строки в число:
-let str = 'full_string';
-let num1: number = +str;
-let enum2: number = parseInt(str);
+// // Преобразование строки в число:
+// let str = 'full_string';
+// let num1: number = +str;
+// let enum2: number = parseInt(str);
 
-// Преобразование объектов:
+// // Преобразование объектов:
+// interface User {
+//   name: string;
+//   email: string;
+//   login: string;
+// }
+// // Способ 1: явное указание interface
+// const user1: User = {
+//   name: 'Вася',
+//   email: 'vasily@MediaList.ru',
+//   login: 'Vasya'
+// };
+// // Способ 2: каст к типу
+// const user2 = {
+//   name: 'Саня',
+//   email: 'sanya@MediaList.ru',
+//   login: 'Sanya'
+// } as User;
+// // Способ 3: generic type
+// // Не рекомендуется к использованию.
+// // Его невозможно использовать с React:
+// const user3 = <User>{
+//   name: 'Сергей',
+//   email: 'sergey@MediaList.ru',
+//   login: 'Sergey'
+// };
+// //
+// //
+// interface Admin {
+//   name: string;
+//   role: number;
+// }
+// // Вариант: преобразование user к admin
+// // Минусы: сохраняются ненужные поля email и login.
+// const admin: Admin = {
+//   ...user1,
+//   role: 1
+// };
+// // Правильно делать функции преобразования одного типа в другой:
+// function userToAdmin(user1: User): Admin {
+//   return {
+//     name: user1.name,
+//     role: 1
+//   };
+// }
+//
+// // TYPE GUARD
+// Type Guard - функция,
 interface User {
   name: string;
   email: string;
   login: string;
 }
-// Способ 1: явное указание interface
-const user1: User = {
-  name: 'Вася',
-  email: 'vasily@MediaList.ru',
-  login: 'Vasya'
+const user: User = {
+  name: 'Alex',
+  email: 'alex@mail.ru',
+  login: 'Alex'
 };
-// Способ 2: каст к типу
-const user2 = {
-  name: 'Саня',
-  email: 'sanya@MediaList.ru',
-  login: 'Sanya'
-} as User;
-// Способ 3: generic type
-// Не рекомендуется к использованию.
-// Его невозможно использовать с React:
-const user3 = <User>{
-  name: 'Сергей',
-  email: 'sergey@MediaList.ru',
-  login: 'Sergey'
-};
-//
-//
 interface Admin {
   name: string;
   role: number;
 }
-// Вариеант: преобразование user к admin
-// Минусы: сохраняются ненужные поля email и login.
-const admin: Admin = {
-  ...user1,
-  role: 1
-};
-// Правильно делать функции преобразования одного типа в другой:
-function userToAdmin(user1: User): Admin {
-  return {
-    name: user1.name,
-    role: 1
-  };
+// Запись функции без использования type guard:
+// function logId(id: string | number) {
+//   if (typeof id === 'string') console.log(id);
+//   // if (typeof id === 'number') console.log(id);
+//   // id; // id: string | number
+// }
+// Простая функция type guard с возвратом:
+// x is string это boolean.
+function isString(x: string | number): x is string {
+  return typeof x === 'string';
+}
+// Запись функции с использованием type guard:
+function logId(id: string | number) {
+  if (isString(id)) console.log(id);
+  else console.log(id);
+}
+// Функция, которая меняет роль поьзователя:
+// Type Guard Варинт 1:
+function isAdmin(user: User | Admin): user is Admin {
+  return 'role' in user;
+}
+// Type Guard Вариант 2:
+function isAdminAlt(user: User | Admin): user is Admin {
+  return (user as Admin).role !== undefined;
+}
+// Функция, которая меняет роль поьзователя:
+function setRoleZero(user: User | Admin) {
+  if (isAdmin(user)) user.role = 0;
+  else throw new Error('User is not admin');
 }
