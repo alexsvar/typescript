@@ -534,48 +534,95 @@
 // }
 //
 // // TYPE GUARD
-// Type Guard - функция,
-interface User {
-  name: string;
-  email: string;
-  login: string;
-}
-const user: User = {
-  name: 'Alex',
-  email: 'alex@mail.ru',
-  login: 'Alex'
-};
-interface Admin {
-  name: string;
-  role: number;
-}
-// Запись функции без использования type guard:
-// function logId(id: string | number) {
-//   if (typeof id === 'string') console.log(id);
-//   // if (typeof id === 'number') console.log(id);
-//   // id; // id: string | number
+// // Type Guard - функция
+// interface User {
+//   name: string;
+//   email: string;
+//   login: string;
 // }
-// Простая функция type guard с возвратом:
-// x is string это boolean.
-function isString(x: string | number): x is string {
-  return typeof x === 'string';
+// const user: User = {
+//   name: 'Alex',
+//   email: 'alex@mail.ru',
+//   login: 'Alex'
+// };
+// interface Admin {
+//   name: string;
+//   role: number;
+// }
+// // Запись функции без использования type guard:
+// // function logId(id: string | number) {
+// //   if (typeof id === 'string') console.log(id);
+// //   // if (typeof id === 'number') console.log(id);
+// //   // id; // id: string | number
+// // }
+// // Простая функция type guard с возвратом:
+// // x is string это boolean.
+// function isString(x: string | number): x is string {
+//   return typeof x === 'string';
+// }
+// // Запись функции с использованием type guard:
+// function logId(id: string | number) {
+//   if (isString(id)) console.log(id);
+//   else console.log(id);
+// }
+// // Функция, которая меняет роль поьзователя:
+// // Type Guard Варинт 1:
+// function isAdmin(user: User | Admin): user is Admin {
+//   return 'role' in user;
+// }
+// // Type Guard Вариант 2:
+// function isAdminAlt(user: User | Admin): user is Admin {
+//   return (user as Admin).role !== undefined;
+// }
+// // Функция, которая меняет роль поьзователя:
+// function setRoleZero(user: User | Admin) {
+//   if (isAdmin(user)) user.role = 0;
+//   else throw new Error('User is not admin');
+// }
+//
+// EXERCISE 4: MAKING A TYPE GUARD FOR THE RESPONSE
+interface IPayment {
+  sum: number;
+  from: number;
+  to: number;
 }
-// Запись функции с использованием type guard:
-function logId(id: string | number) {
-  if (isString(id)) console.log(id);
-  else console.log(id);
+
+enum PaymentStatus {
+  Success = 'success',
+  Failed = 'failed'
 }
-// Функция, которая меняет роль поьзователя:
-// Type Guard Варинт 1:
-function isAdmin(user: User | Admin): user is Admin {
-  return 'role' in user;
+
+interface IPaymentRequest extends IPayment {}
+
+interface IDataSuccess extends IPayment {
+  databaseId: number;
 }
-// Type Guard Вариант 2:
-function isAdminAlt(user: User | Admin): user is Admin {
-  return (user as Admin).role !== undefined;
+
+interface IDataFailed {
+  errorMessage: string;
+  errorCode: number;
 }
-// Функция, которая меняет роль поьзователя:
-function setRoleZero(user: User | Admin) {
-  if (isAdmin(user)) user.role = 0;
-  else throw new Error('User is not admin');
+
+interface IResponseSuccess {
+  status: PaymentStatus.Success;
+  data: IDataSuccess;
+}
+
+interface IResponseFailed {
+  status: PaymentStatus.Failed;
+  data: IDataFailed;
+}
+// Code:
+type f = (res: IResponseSuccess | IResponseFailed) => number;
+type Res = IResponseSuccess | IResponseFailed;
+
+// type guard function:
+function isSuccess(res: Res): res is IResponseSuccess {
+  if (res.status === PaymentStatus.Success) return true;
+  return false;
+}
+
+function getIdFromData(res: Res): number {
+  if (isSuccess(res)) return res.data.databaseId;
+  else throw new Error(res.data.errorMessage);
 }
