@@ -361,39 +361,86 @@
 // Тип unknown означает, что мы не знаем что у нас лежит в переменной.
 // Мы не можем unknown положить в любую переменную, пока не сделаем
 // приведение типов или не определим, что это за тип.
-let input: unknown;
-input = 3;
-input = 'str';
-input = ['str1', 'str2'];
-
-function run(i: unknown) {
-  if (typeof i == 'number') i++;
-  else i;
+// let input: unknown;
+// input = 3;
+// input = 'str';
+// input = ['str1', 'str2'];
+//
+// function run(i: unknown) {
+//   if (typeof i == 'number') i++;
+//   else i;
+// }
+// run(input);
+//
+// // try...catch:
+// async function getData() {
+//   try {
+//     await fetch('');
+//   } catch (error) {
+//     if (error instanceof Error) console.log(error.message);
+//   }
+// }
+//
+// async function getDataForce() {
+//   try {
+//     await fetch('');
+//   } catch (error) {
+//     const e = error as Error;
+//     console.log(e.message);
+//   }
+// }
+//
+// // unknown и другие типы:
+// // при union unknown и любого другого типа буд unknown.
+// type U1 = unknown | null;
+//
+// // intersection:
+// // Intersection unknown | любой другой тип - даёт другой тип.
+// type I1 = unknown & string;
+//
+// NEVER
+// Тип never означает что никогда такого не произойдёт.
+// Функция genenrateError никогда ничего не вернёт.
+function generateError(message: string): never {
+  throw new Error(message);
 }
-run(input);
-
-// try...catch:
-async function getData() {
-  try {
-    await fetch('');
-  } catch (error) {
-    if (error instanceof Error) console.log(error.message);
+// Внутри функции цикл никогда не закончится,
+// значит функция никогда ничего не вернёт.
+function dumpError(): never {
+  while (true) {}
+}
+// Типу never ничег нельзя присвоить:
+// const a: never = 1; // error
+// const a: never = null; // error
+// Можно давать в качестве имени _, чтобы typescript
+// не ругался на неиспользуемую переменную:
+// const _: never;
+//
+// Проверка с помощью never, что мы никогда не зайдём в ту или иную ветку:
+type paymentAction = 'refund' | 'checkout' | 'reject';
+function processAction(action: paymentAction) {
+  switch (action) {
+    case 'refund':
+      // ...
+      break;
+    case 'checkout':
+      // ...
+      break;
+    case 'reject':
+      // ...
+      break;
+    default:
+      const _: never = action;
+      throw new Error('This action is not exists...');
   }
 }
 
-async function getDataForce() {
-  try {
-    await fetch('');
-  } catch (error) {
-    const e = error as Error;
-    console.log(e.message);
-  }
+// Исчерпывающая проверка, когда функция, которая возвращает never,
+// помогает улучшить ситуацию. В данном случае, функция generateError
+// убирает ошибку с возвращаемым значением типа boolean.
+
+function isString(x: string | number): boolean {
+  if (typeof x === 'string') return true;
+  if (typeof x === 'number') return false;
+  generateError('Error message');
 }
-
-// unknown и другие типы:
-// при union unknown и любого другого типа буд unknown.
-type U1 = unknown | null;
-
-// intersection:
-// Intersection unknown | любой другой тип - даёт другой тип.
-type I1 = unknown & string;
