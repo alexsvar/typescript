@@ -94,27 +94,51 @@
 //   else return '';
 // }
 //
-// GETTERS & SETTERS
-// То что возвращает getter, то и должен получать setter.
-// Объявляя только getter без setter, свойство login становится readonly.
-// Setters & getters не могут быть асинхронными.
-class User {
-  _login: string;
-  password: string;
-  createdAt: Date;
-  set login(log: string | number) {
-    this._login = 'user-' + log;
-    this.createdAt = new Date();
-  }
-  get login() {
-    return this._login;
-  }
-  async getPassword(pass: string) {}
-  // set password(pass: string) {
-  // 	// sync
-  // }
+// // GETTERS & SETTERS
+// // То что возвращает getter, то и должен получать setter.
+// // Объявляя только getter без setter, свойство login становится readonly.
+// // Setters & getters не могут быть асинхронными.
+// class User {
+//   _login: string;
+//   password: string;
+//   createdAt: Date;
+//   set login(log: string | number) {
+//     this._login = 'user-' + log;
+//     this.createdAt = new Date();
+//   }
+//   get login() {
+//     return this._login;
+//   }
+//   async getPassword(pass: string) {}
+// }
+// const user1 = new User();
+// user1.login = 'myLogin';
+// console.log(user1);
+// console.log(user1.login);
+//
+// IMPLEMENTS
+//
+interface ILogger {
+  log(...args: any[]): void;
+  error(...args: any[]): void;
 }
-const user1 = new User();
-user1.login = 'myLogin';
-console.log(user1);
-console.log(user1.login);
+class Logger implements ILogger {
+  log(...args: any[]): void {
+    console.log(...args);
+  }
+  async error(...args: any[]): Promise<void> {
+    console.log(...args);
+  }
+}
+interface IPayable {
+  pay(paymentId: number): void;
+  price?: number;
+}
+interface IDeletable {
+  delete(): void;
+}
+class User implements IPayable, IDeletable {
+  pay(paymentId: number | string): void {
+    // ...
+  }
+}
