@@ -116,29 +116,64 @@
 // console.log(user1);
 // console.log(user1.login);
 //
-// IMPLEMENTS
+// // IMPLEMENTATION
 //
-interface ILogger {
-  log(...args: any[]): void;
-  error(...args: any[]): void;
-}
-class Logger implements ILogger {
-  log(...args: any[]): void {
-    console.log(...args);
+// interface ILogger {
+//   log(...args: any[]): void;
+//   error(...args: any[]): void;
+// }
+// class Logger implements ILogger {
+//   log(...args: any[]): void {
+//     console.log(...args);
+//   }
+//   async error(...args: any[]): Promise<void> {
+//     console.log(...args);
+//   }
+// }
+// interface IPayable {
+//   pay(paymentId: number): void;
+//   price?: number;
+// }
+// interface IDeletable {
+//   delete(): void;
+// }
+// class User implements IPayable, IDeletable {
+//   delete(): void {
+//     throw new Error('Method not implemented.');
+//   }
+//   pay(paymentId: number | string): void {
+//     // ...
+//   }
+// }
+//
+// EXTENDS
+//
+type PaymentStatus = 'new' | 'paid';
+class Payment {
+  constructor(id: number) {
+    this.id = id;
   }
-  async error(...args: any[]): Promise<void> {
-    console.log(...args);
+  id: number;
+  status: PaymentStatus = 'new';
+  pay() {
+    this.status = 'paid';
   }
 }
-interface IPayable {
-  pay(paymentId: number): void;
-  price?: number;
-}
-interface IDeletable {
-  delete(): void;
-}
-class User implements IPayable, IDeletable {
-  pay(paymentId: number | string): void {
-    // ...
+class PersistedPayment extends Payment {
+  constructor() {
+    const id = Math.random();
+    super(id);
+  }
+  databaseId: number;
+  paidAt: Date;
+  save() {
+    //
+  }
+  // Override method - переопределение метода.
+  override pay(date?: Date) {
+    // super.pay();
+    if (date) {
+      this.paidAt = date;
+    }
   }
 }
