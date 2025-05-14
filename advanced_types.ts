@@ -399,48 +399,77 @@
 // type I1 = unknown & string;
 //
 // NEVER
-// Тип never означает что никогда такого не произойдёт.
-// Функция genenrateError никогда ничего не вернёт.
-function generateError(message: string): never {
-  throw new Error(message);
-}
-// Внутри функции цикл никогда не закончится,
-// значит функция никогда ничего не вернёт.
-function dumpError(): never {
-  while (true) {}
-}
-// Типу never ничег нельзя присвоить:
-// const a: never = 1; // error
-// const a: never = null; // error
-// Можно давать в качестве имени _, чтобы typescript
-// не ругался на неиспользуемую переменную:
-// const _: never;
+// // Тип never означает что никогда такого не произойдёт.
+// // Функция genenrateError никогда ничего не вернёт.
+// function generateError(message: string): never {
+//   throw new Error(message);
+// }
+// // Внутри функции цикл никогда не закончится,
+// // значит функция никогда ничего не вернёт.
+// function dumpError(): never {
+//   while (true) {}
+// }
+// // Типу never ничег нельзя присвоить:
+// // const a: never = 1; // error
+// // const a: never = null; // error
+// // Можно давать в качестве имени _, чтобы typescript
+// // не ругался на неиспользуемую переменную:
+// // const _: never;
+// //
+// // Проверка с помощью never, что мы никогда не зайдём в ту или иную ветку:
+// type paymentAction = 'refund' | 'checkout' | 'reject';
+// function processAction(action: paymentAction) {
+//   switch (action) {
+//     case 'refund':
+//       // ...
+//       break;
+//     case 'checkout':
+//       // ...
+//       break;
+//     case 'reject':
+//       // ...
+//       break;
+//     default:
+//       const _: never = action;
+//       throw new Error('This action is not exists...');
+//   }
+// }
+
+// // Исчерпывающая проверка, когда функция, которая возвращает never,
+// // помогает улучшить ситуацию. В данном случае, функция generateError
+// // убирает ошибку с возвращаемым значением типа boolean.
 //
-// Проверка с помощью never, что мы никогда не зайдём в ту или иную ветку:
-type paymentAction = 'refund' | 'checkout' | 'reject';
-function processAction(action: paymentAction) {
-  switch (action) {
-    case 'refund':
-      // ...
-      break;
-    case 'checkout':
-      // ...
-      break;
-    case 'reject':
-      // ...
-      break;
-    default:
-      const _: never = action;
-      throw new Error('This action is not exists...');
-  }
+// function isString(x: string | number): boolean {
+//   if (typeof x === 'string') return true;
+//   if (typeof x === 'number') return false;
+//   generateError('Error message');
+// }
+//
+// NULL
+// Тип null строго null, ему нельзя присвоить значение undefined.
+// В number/string/boolean/undefined нельзя положить null.
+// За это отвечает опция в tsconfig:
+// "strictNullChecks": true; - When type checking, take into account 'null' and 'undefined'.
+const n: null = null;
+const n1: any = null;
+// const n2: number = null; // error
+// const n3: string = null; // error
+// const n4: boolean = null; // error
+// const n4: undefined = null; // error
+//
+interface User {
+  name: string;
+}
+function getUser() {
+  if (Math.random() > 0.5) return null;
+  else return { name: 'Вася' } as User;
+}
+const user = getUser();
+if (user) {
+  const userName = user.name;
 }
 
-// Исчерпывающая проверка, когда функция, которая возвращает never,
-// помогает улучшить ситуацию. В данном случае, функция generateError
-// убирает ошибку с возвращаемым значением типа boolean.
-
-function isString(x: string | number): boolean {
-  if (typeof x === 'string') return true;
-  if (typeof x === 'number') return false;
-  generateError('Error message');
-}
+//
+// Отличия между null и undefined:
+// null - явно заданный неопределённый объект.
+// undefined - говорит, что мы не задали объект.
