@@ -425,20 +425,39 @@
 // if (user.isAdmin()) console.log(user);
 // else console.log(user);
 //
-// ABSTRACT CLASSES
+// // ABSTRACT CLASSES
+// // Абстрактные методы могут использоваться в абстрактных классах.
+// abstract class Controller {
+//   abstract handle(req: any): void;
+//   handleWithLogs(req: any) {
+//     console.log('start');
+//     this.handle(req);
+//     console.log('end');
+//   }
+// }
+// class UserController extends Controller {
+//   handle(req: any): void {
+//     console.log(req);
+//   }
+// }
+// // new Controller() // error
+// const uc = new UserController();
+// uc.handleWithLogs('Request');
 //
-class Controller {
-    handleWithLogs(req) {
-        console.log('start');
-        this.handle(req);
-        console.log('end');
+// EXERCISE 6: CREATING ABSTRACT LOGGER
+class Logger {
+    printDate(date) {
+        this.log(date.toString());
     }
 }
-class UserController extends Controller {
-    handle(req) {
-        console.log(req);
+class MyLogger extends Logger {
+    log(message) {
+        console.log(message);
+    }
+    logWithDate() {
+        this.printDate(new Date());
+        this.log('Created abstract class');
     }
 }
-// new Controller() // error
-const uc = new UserController();
-uc.handleWithLogs('Request');
+const logger = new MyLogger();
+logger.logWithDate();
