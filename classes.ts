@@ -404,23 +404,43 @@
 // }
 // console.log(new PaymentPersistent().save());
 //
-// THIS TYPIFICATION
-class UserBuilder {
-  name: string;
-  setName(name: string): this {
-    this.name = name;
-    return this;
-  }
-  isAdmin(): this is AdminBuilder {
-    return this instanceof AdminBuilder;
+// // THIS TYPIFICATION
+// class UserBuilder {
+//   name: string;
+//   setName(name: string): this {
+//     this.name = name;
+//     return this;
+//   }
+//   isAdmin(): this is AdminBuilder {
+//     return this instanceof AdminBuilder;
+//   }
+// }
+// class AdminBuilder extends UserBuilder {
+//   roles: string[];
+// }
+// const res1 = new UserBuilder().setName('Vasya');
+// const res2 = new AdminBuilder().setName('Vasya');
+//
+// let user: UserBuilder | AdminBuilder = new UserBuilder();
+// if (user.isAdmin()) console.log(user);
+// else console.log(user);
+//
+// ABSTRACT CLASSES
+// Абстрактные методы могут использоваться в абстрактных классах.
+//
+abstract class Controller {
+  abstract handle(req: any): void;
+  handleWithLogs(req: any) {
+    console.log('start');
+    this.handle(req);
+    console.log('end');
   }
 }
-class AdminBuilder extends UserBuilder {
-  roles: string[];
+class UserController extends Controller {
+  handle(req: any): void {
+    console.log(req);
+  }
 }
-const res1 = new UserBuilder().setName('Vasya');
-const res2 = new AdminBuilder().setName('Vasya');
-
-let user: UserBuilder | AdminBuilder = new UserBuilder();
-if (user.isAdmin()) console.log(user);
-else console.log(user);
+// new Controller() // error
+const uc = new UserController();
+uc.handleWithLogs('Request');
