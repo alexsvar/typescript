@@ -296,63 +296,110 @@
 // // Product: id, название и цена
 // // Delivery: может быть как до дома (дата и адрес) или до пункта выдачи (дата = Сегодня и Id магазина)
 //
-class Product {
-    constructor(id, name, price) {
-        this.id = id;
-        this.name = name;
-        this.price = price;
-    }
-}
-class Delivery {
-    constructor(date) {
-        this.date = date;
-    }
-}
-class HomeDelivery extends Delivery {
-    constructor(date, address) {
-        super(date);
-        this.address = address;
-    }
-}
-class ShopDelivery extends Delivery {
-    constructor(shopId) {
-        super(new Date());
-        this.shopId = shopId;
-    }
-}
-class Cart {
+// class Product {
+//   constructor(public id: number, public name: string, public price: number) {}
+// }
+// class Delivery {
+//   constructor(public date: Date) {}
+// }
+// class HomeDelivery extends Delivery {
+//   constructor(date: Date, public address: string) {
+//     super(date);
+//   }
+// }
+// class ShopDelivery extends Delivery {
+//   constructor(public shopId: string) {
+//     super(new Date());
+//   }
+// }
+// type DeliveryOptions = HomeDelivery | ShopDelivery;
+// class Cart {
+//   private products: Product[] = [];
+//   private delivery: DeliveryOptions;
+//
+//   public addProductToCart(product: Product): void {
+//     this.products.push(product);
+//   }
+//   public removeProductFromCart(id: number): void {
+//     this.products = this.products.filter((p: Product) => p.id !== id);
+//   }
+//   public countTotalPrice(): number {
+//     return this.products
+//       .map((p: Product) => p.price)
+//       .reduce((acc: number, p: number) => {
+//         return acc + p;
+//       }, 0);
+//   }
+//   public setDelivery(delivery: DeliveryOptions): void {
+//     this.delivery = delivery;
+//   }
+//   public checkout() {
+//     if (this.products.length === 0)
+//       throw new Error('Добавьте товар в корзину!');
+//     if (!this.delivery) throw new Error('Укажите способ доставки!');
+//     return { success: true };
+//   }
+// }
+// const cart = new Cart();
+// cart.addProductToCart(new Product(1, 'Печенье', 10));
+// cart.addProductToCart(new Product(2, 'Вафли', 20));
+// cart.addProductToCart(new Product(3, 'Торт', 35));
+// cart.removeProductFromCart(1);
+// cart.setDelivery(new HomeDelivery(new Date(), "unost' street"));
+// console.log(cart.countTotalPrice());
+// console.log(cart.checkout());
+//
+// // STATIC PROPERTIES
+// // static - статические свойства, которые
+// // 1. Не требуют создания instance.
+// // 2. Вызываются через название класса.
+// // 3. В статичные методы мы не можем передавать никакие внутренние данные.
+// // UserService.db
+// class UserService {
+//   constructor(id: number) {}
+//   // Приватное статическое поле
+//   private static db: any;
+//   // Статический метод
+//   static getUser(id: number) {
+//     this.db.findById(id);
+//   }
+//   // Статичные блоки (инициализатор статичного класса)
+//   // Код статичного блока будет выполнен сразу после запуска.
+//   // Внутри нельзя использовать ничего асинхронного.
+//   static {
+//     UserService.db = 'dataBase';
+//   }
+//   // Динамические метод создания
+//   create() {
+//     UserService.db;
+//   }
+// }
+// UserService.getUser(1);
+//
+// WORK WITH THIS
+class Payment {
     constructor() {
-        this.products = [];
+        this.date = new Date();
+        this.getDateArrow = () => {
+            return this.date;
+        };
     }
-    addProductToCart(product) {
-        this.products.push(product);
-    }
-    removeProductFromCart(id) {
-        this.products = this.products.filter((p) => p.id !== id);
-    }
-    countTotalPrice() {
-        return this.products
-            .map((p) => p.price)
-            .reduce((acc, p) => {
-            return acc + p;
-        }, 0);
-    }
-    setDelivery(delivery) {
-        this.delivery = delivery;
-    }
-    checkout() {
-        if (this.products.length === 0)
-            throw new Error('Добавьте товар в корзину!');
-        if (!this.delivery)
-            throw new Error('Укажите способ доставки!');
-        return { success: true };
+    getDate() {
+        return this.date;
     }
 }
-const cart = new Cart();
-cart.addProductToCart(new Product(1, 'Печенье', 10));
-cart.addProductToCart(new Product(2, 'Вафли', 20));
-cart.addProductToCart(new Product(3, 'Торт', 35));
-cart.removeProductFromCart(1);
-cart.setDelivery(new HomeDelivery(new Date(), "unost' street"));
-console.log(cart.countTotalPrice());
-console.log(cart.checkout());
+const p = new Payment();
+const user = {
+    id: 1,
+    paymentDate: p.getDate.bind(p),
+    paymentDateArrow: p.getDateArrow
+};
+// console.log(p.getDate());
+// console.log(user.paymentDate());
+// console.log(user.paymentDateArrow());
+class PaymentPersistent extends Payment {
+    save() {
+        return this.getDateArrow();
+    }
+}
+console.log(new PaymentPersistent().save());

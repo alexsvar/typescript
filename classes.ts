@@ -349,29 +349,57 @@
 // console.log(cart.countTotalPrice());
 // console.log(cart.checkout());
 //
-// STATIC PROPERTIES
-// static - статические свойства, которые
-// 1. Не требуют создания instance.
-// 2. Вызываются через название класса.
-// 3. В статичные методы мы не можем передавать никакие внутренние данные.
-// UserService.db
-class UserService {
-  constructor(id: number) {}
-  // Приватное статическое поле
-  private static db: any;
-  // Статический метод
-  static getUser(id: number) {
-    this.db.findById(id);
+// // STATIC PROPERTIES
+// // static - статические свойства, которые
+// // 1. Не требуют создания instance.
+// // 2. Вызываются через название класса.
+// // 3. В статичные методы мы не можем передавать никакие внутренние данные.
+// // UserService.db
+// class UserService {
+//   constructor(id: number) {}
+//   // Приватное статическое поле
+//   private static db: any;
+//   // Статический метод
+//   static getUser(id: number) {
+//     this.db.findById(id);
+//   }
+//   // Статичные блоки (инициализатор статичного класса)
+//   // Код статичного блока будет выполнен сразу после запуска.
+//   // Внутри нельзя использовать ничего асинхронного.
+//   static {
+//     UserService.db = 'dataBase';
+//   }
+//   // Динамические метод создания
+//   create() {
+//     UserService.db;
+//   }
+// }
+// UserService.getUser(1);
+//
+// WORK WITH THIS
+class Payment {
+  private date: Date = new Date();
+  getDate(this: Payment) {
+    return this.date;
   }
-  // Статичные блоки (инициализатор статичного класса)
-  // Код статичного блока будет выполнен сразу после запуска.
-  // Внутри нельзя использовать ничего асинхронного.
-  static {
-    UserService.db = 'dataBase';
-  }
-  // Динамические метод создания
-  create() {
-    UserService.db;
+  getDateArrow = () => {
+    return this.date;
+  };
+}
+const p = new Payment();
+
+const user = {
+  id: 1,
+  paymentDate: p.getDate.bind(p),
+  paymentDateArrow: p.getDateArrow
+};
+// console.log(p.getDate());
+// console.log(user.paymentDate());
+// console.log(user.paymentDateArrow());
+
+class PaymentPersistent extends Payment {
+  save() {
+    return this.getDateArrow();
   }
 }
-UserService.getUser(1);
+console.log(new PaymentPersistent().save());
