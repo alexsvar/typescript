@@ -52,29 +52,65 @@
 // toString<undefined>(undefined);
 // toString<Array<number>>([10, 20, 30]);
 //
-function toString<T>(data: T): string | undefined {
-  if (Array.isArray(data)) {
-    return data.toString();
-  }
-
-  switch (typeof data) {
-    case 'string':
-      return data;
-    case 'number':
-    case 'symbol':
-    case 'bigint':
-    case 'boolean':
-    case 'function':
-      return data.toString();
-    case 'object':
-      return JSON.stringify(data);
-    default:
-      return undefined;
-  }
+// function toString<T>(data: T): string | undefined {
+//   if (Array.isArray(data)) {
+//     return data.toString();
+//   }
+//
+//   switch (typeof data) {
+//     case 'string':
+//       return data;
+//     case 'number':
+//     case 'symbol':
+//     case 'bigint':
+//     case 'boolean':
+//     case 'function':
+//       return data.toString();
+//     case 'object':
+//       return JSON.stringify(data);
+//     default:
+//       return undefined;
+//   }
+// }
+// console.log(toString(3)); // '3'
+// console.log(toString(true)); // 'true'
+// console.log(toString(['a', 1])); // 'a,1'
+// console.log(toString({ a: 1, b: 2 })); // '{"a":1,"b":2}'
+// console.log(toString(Infinity)); // 'Infinity'
+// console.log(toString()); // undefined
+//
+// USING GENERICS IN TYPES
+//
+function getSplittedHalf<T>(data: Array<T>): Array<T> {
+  const l = data.length / 2;
+  return data.splice(0, l);
 }
-console.log(toString(3)); // '3'
-console.log(toString(true)); // 'true'
-console.log(toString(['a', 1])); // 'a,1'
-console.log(toString({ a: 1, b: 2 })); // '{"a":1,"b":2}'
-console.log(toString(Infinity)); // 'Infinity'
-console.log(toString()); // undefined
+
+const split1: <T>(data: Array<T>) => Array<T> = getSplittedHalf;
+const split2: <Y>(data: Array<Y>) => Array<Y> = getSplittedHalf;
+
+// Using generics in interfaces
+interface ILogLine<T> {
+  timeStamp: Date;
+  data: T;
+}
+
+const logLine1: ILogLine<{ a: number }> = {
+  timeStamp: new Date(),
+  data: {
+    a: 1
+  }
+};
+
+// Using generics in types
+type LogLineType<T> = {
+  timeStamp: Date;
+  data: T;
+};
+
+const logLine2: LogLineType<{ a: number }> = {
+  timeStamp: new Date(),
+  data: {
+    a: 1
+  }
+};
