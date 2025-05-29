@@ -171,34 +171,77 @@
 // console.log(sort(data, 'desc'));
 // console.log(sort(data, 'asc'));
 //
-// GENERIC CLASSES
+// // GENERIC CLASSES
 //
-class Resp<D, E> {
-  data?: D;
-  error?: E;
-
-  constructor(data?: D, error?: E) {
-    if (data) {
-      this.data = data;
-    }
-    if (error) {
-      this.error = error;
-    }
-  }
-}
-
-const resp1 = new Resp<string, number>('data', 0);
-const resp2 = new Resp<string, number>('data'); // error's type is unknown
-
-// Нельзя наследоваться от классов, которые содержат generics,
-// при наследовании нужно определить data и error.
-// Так же можно задавать дополнительные generics.
-class HTTPResp<F> extends Resp<string, number> {
-  code: F;
-
-  setCode(code: F) {
-    this.code = code;
-  }
-}
-
-const resp3 = new HTTPResp();
+// class Resp<D, E> {
+//   data?: D;
+//   error?: E;
+//
+//   constructor(data?: D, error?: E) {
+//     if (data) {
+//       this.data = data;
+//     }
+//     if (error) {
+//       this.error = error;
+//     }
+//   }
+// }
+//
+// const resp1 = new Resp<string, number>('data', 0);
+// const resp2 = new Resp<string, number>('data'); // error's type is unknown
+//
+// // Нельзя наследоваться от классов, которые содержат generics,
+// // при наследовании нужно определить data и error.
+// // Так же можно задавать дополнительные generics.
+// class HTTPResp<F> extends Resp<string, number> {
+//   code: F;
+//
+//   setCode(code: F) {
+//     this.code = code;
+//   }
+// }
+// const resp3 = new HTTPResp();
+//
+// // MIXINS
+// // Миксин - функция.
+// // Миксины используются для реализации возможности наследования от одного/нескольких
+// // классов, либо при создания примеси дополнительных свойств тому или иному объекту
+// // без явного наследования.
+//
+// type Constructor = new (...args: any[]) => {};
+// type GConstructor<T = {}> = new (...args: any[]) => T;
+//
+// class List {
+//   constructor(public items: string[]) {}
+// }
+//
+// class Accordion {
+//   isOpened: boolean;
+// }
+//
+// type ListType = GConstructor<List>;
+// type AccordionType = GConstructor<Accordion>;
+//
+// class ExtendedListClass extends List {
+//   first() {
+//     return this.items[0];
+//   }
+// }
+//
+// function ExtendedList<TBase extends ListType & AccordionType>(Base: TBase) {
+//   return class ExtendedList extends Base {
+//     first() {
+//       return this.items[0];
+//     }
+//   };
+// }
+//
+// class AccordionList {
+//   isOpened: boolean;
+//
+//   constructor(public items: string[]) {}
+// }
+//
+// const list = ExtendedList(AccordionList);
+// const res = new list(['first', 'second']);
+// console.log(res.first());
