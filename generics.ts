@@ -115,31 +115,59 @@
 //   }
 // };
 //
-// GENERICS LIMITATION
-// Нельзя работать с generics как с определённым типом и обращаться к его свойствам.
-class Vehicle {
-  run: number;
+// // GENERICS LIMITATION
+// // Нельзя работать с generics как с определённым типом и обращаться к его свойствам.
+// class Vehicle {
+//   run: number;
+// }
+//
+// function kmToMiles<T extends Vehicle>(vehicle: T): T {
+//   vehicle.run = vehicle.run / 0.62;
+//   return vehicle;
+// }
+//
+// class LCV extends Vehicle {
+//   capacity: number;
+// }
+//
+// const vehicle = kmToMiles(new Vehicle());
+// const lcv = kmToMiles(new LCV());
+// kmToMiles({ run: 1 });
+// // kmToMiles({a: 1}); // Error
+//
+// function logId<T extends string | number, Y>(
+//   id: T,
+//   additionalData: Y
+// ): { id: T; data: Y } {
+//   console.log(id);
+//   console.log(additionalData);
+//   return { id, data: additionalData };
+// }
+//
+// EXERCISE 8: ID SORTING FUNCTION
+// Написать функцию сортировки любых объектов,
+// которые имеют id, по убыванию и возрастанию.
+
+const data = [
+  { id: 1, name: 'Вася' },
+  { id: 2, name: 'Петя' },
+  { id: 3, name: 'Надя' }
+];
+
+interface ID {
+  id: number;
 }
 
-function kmToMiles<T extends Vehicle>(vehicle: T): T {
-  vehicle.run = vehicle.run / 0.62;
-  return vehicle;
+function sort<T extends ID>(data: T[], type: 'asc' | 'desc' = 'asc'): T[] {
+  return data.sort((a, b) => {
+    switch (type) {
+      case 'asc':
+        return a.id - b.id;
+      case 'desc':
+        return b.id - a.id;
+    }
+  });
 }
 
-class LCV extends Vehicle {
-  capacity: number;
-}
-
-const vehicle = kmToMiles(new Vehicle());
-const lcv = kmToMiles(new LCV());
-kmToMiles({ run: 1 });
-// kmToMiles({a: 1}); // Error
-
-function logId<T extends string | number, Y>(
-  id: T,
-  additionalData: Y
-): { id: T; data: Y } {
-  console.log(id);
-  console.log(additionalData);
-  return { id, data: additionalData };
-}
+console.log(sort(data, 'desc'));
+console.log(sort(data, 'asc'));
