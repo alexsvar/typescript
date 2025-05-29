@@ -444,22 +444,22 @@
 // const uc = new UserController();
 // uc.handleWithLogs('Request');
 //
-// EXERCISE 6: CREATING ABSTRACT LOGGER
-abstract class Logger {
-  abstract log(message: string): void;
-  printDate(date: Date): void {
-    this.log(date.toString());
-  }
-}
-
-class MyLogger extends Logger {
-  log(message: string): void {
-    console.log(message);
-  }
-  logWithDate(): void {
-    this.printDate(new Date());
-    this.log('Created abstract class');
-  }
-}
-const logger = new MyLogger();
-logger.logWithDate();
+// // EXERCISE 6: CREATING ABSTRACT LOGGER
+// abstract class Logger {
+//   abstract log(message: string): void;
+//   printDate(date: Date): void {
+//     this.log(date.toString());
+//   }
+// }
+//
+// class MyLogger extends Logger {
+//   log(message: string): void {
+//     console.log(message);
+//   }
+//   logWithDate(): void {
+//     this.printDate(new Date());
+//     this.log('Created abstract class');
+//   }
+// }
+// const logger = new MyLogger();
+// logger.logWithDate();
