@@ -79,38 +79,67 @@
 // console.log(toString(Infinity)); // 'Infinity'
 // console.log(toString()); // undefined
 //
-// USING GENERICS IN TYPES
+// // USING GENERICS IN TYPES
 //
-function getSplittedHalf<T>(data: Array<T>): Array<T> {
-  const l = data.length / 2;
-  return data.splice(0, l);
+// function getSplittedHalf<T>(data: Array<T>): Array<T> {
+//   const l = data.length / 2;
+//   return data.splice(0, l);
+// }
+//
+// const split1: <T>(data: Array<T>) => Array<T> = getSplittedHalf;
+// const split2: <Y>(data: Array<Y>) => Array<Y> = getSplittedHalf;
+//
+// // Using generics in interfaces
+// interface ILogLine<T> {
+//   timeStamp: Date;
+//   data: T;
+// }
+//
+// const logLine1: ILogLine<{ a: number }> = {
+//   timeStamp: new Date(),
+//   data: {
+//     a: 1
+//   }
+// };
+//
+// // Using generics in types
+// type LogLineType<T> = {
+//   timeStamp: Date;
+//   data: T;
+// };
+//
+// const logLine2: LogLineType<{ a: number }> = {
+//   timeStamp: new Date(),
+//   data: {
+//     a: 1
+//   }
+// };
+//
+// GENERICS LIMITATION
+// Нельзя работать с generics как с определённым типом и обращаться к его свойствам.
+class Vehicle {
+  run: number;
 }
 
-const split1: <T>(data: Array<T>) => Array<T> = getSplittedHalf;
-const split2: <Y>(data: Array<Y>) => Array<Y> = getSplittedHalf;
-
-// Using generics in interfaces
-interface ILogLine<T> {
-  timeStamp: Date;
-  data: T;
+function kmToMiles<T extends Vehicle>(vehicle: T): T {
+  vehicle.run = vehicle.run / 0.62;
+  return vehicle;
 }
 
-const logLine1: ILogLine<{ a: number }> = {
-  timeStamp: new Date(),
-  data: {
-    a: 1
-  }
-};
+class LCV extends Vehicle {
+  capacity: number;
+}
 
-// Using generics in types
-type LogLineType<T> = {
-  timeStamp: Date;
-  data: T;
-};
+const vehicle = kmToMiles(new Vehicle());
+const lcv = kmToMiles(new LCV());
+kmToMiles({ run: 1 });
+// kmToMiles({a: 1}); // Error
 
-const logLine2: LogLineType<{ a: number }> = {
-  timeStamp: new Date(),
-  data: {
-    a: 1
-  }
-};
+function logId<T extends string | number, Y>(
+  id: T,
+  additionalData: Y
+): { id: T; data: Y } {
+  console.log(id);
+  console.log(additionalData);
+  return { id, data: additionalData };
+}
