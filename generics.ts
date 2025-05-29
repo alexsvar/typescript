@@ -144,30 +144,61 @@
 //   return { id, data: additionalData };
 // }
 //
-// EXERCISE 8: ID SORTING FUNCTION
-// Написать функцию сортировки любых объектов,
-// которые имеют id, по убыванию и возрастанию.
+// // EXERCISE 8: ID SORTING FUNCTION
+// // Написать функцию сортировки любых объектов,
+// // которые имеют id, по убыванию и возрастанию.
+//
+// const data = [
+//   { id: 1, name: 'Вася' },
+//   { id: 2, name: 'Петя' },
+//   { id: 3, name: 'Надя' }
+// ];
+//
+// interface ID {
+//   id: number;
+// }
+//
+// function sort<T extends ID>(data: T[], type: 'asc' | 'desc' = 'asc'): T[] {
+//   return data.sort((a, b) => {
+//     switch (type) {
+//       case 'asc':
+//         return a.id - b.id;
+//       case 'desc':
+//         return b.id - a.id;
+//     }
+//   });
+// }
+// console.log(sort(data, 'desc'));
+// console.log(sort(data, 'asc'));
+//
+// GENERIC CLASSES
+//
+class Resp<D, E> {
+  data?: D;
+  error?: E;
 
-const data = [
-  { id: 1, name: 'Вася' },
-  { id: 2, name: 'Петя' },
-  { id: 3, name: 'Надя' }
-];
-
-interface ID {
-  id: number;
-}
-
-function sort<T extends ID>(data: T[], type: 'asc' | 'desc' = 'asc'): T[] {
-  return data.sort((a, b) => {
-    switch (type) {
-      case 'asc':
-        return a.id - b.id;
-      case 'desc':
-        return b.id - a.id;
+  constructor(data?: D, error?: E) {
+    if (data) {
+      this.data = data;
     }
-  });
+    if (error) {
+      this.error = error;
+    }
+  }
 }
 
-console.log(sort(data, 'desc'));
-console.log(sort(data, 'asc'));
+const resp1 = new Resp<string, number>('data', 0);
+const resp2 = new Resp<string, number>('data'); // error's type is unknown
+
+// Нельзя наследоваться от классов, которые содержат generics,
+// при наследовании нужно определить data и error.
+// Так же можно задавать дополнительные generics.
+class HTTPResp<F> extends Resp<string, number> {
+  code: F;
+
+  setCode(code: F) {
+    this.code = code;
+  }
+}
+
+const resp3 = new HTTPResp();
